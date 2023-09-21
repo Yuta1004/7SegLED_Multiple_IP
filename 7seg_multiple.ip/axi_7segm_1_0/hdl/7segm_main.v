@@ -45,6 +45,18 @@ module segm7_main #
         end
     end
 
+    /* ----- 分周(1/4) ----- */
+    reg [1:0] clk_cnt;
+
+    assign clk = clk_cnt == 2'b0;
+
+    always @ (posedge S_AXI_ACLK) begin
+        if (!S_AXI_ARSTN)
+            clk_cnt <= 2'b0;
+        else
+            clk_cnt <= clk_cnt + 2'b1;
+    end
+
     /* ----- 接続回路への出力 ----- */
     // 制御用ステートマシン
     parameter S_CTL_IDLE  = 2'b00;
@@ -55,7 +67,7 @@ module segm7_main #
     reg [7:0]  ctl_com_data;
     reg [31:0] ctl_seg_data;
 
-    always @ (posedge S_AXI_ACLK) begin
+    always @ (posedge clk) begin
         if (!S_AXI_ARSTN)
             ctl_state <= S_CTL_IDLE;
         else
@@ -78,7 +90,7 @@ module segm7_main #
         endcase
     end
 
-    always @ (posedge S_AXI_ACLK) begin
+    always @ (posedge clk) begin
         if (ctl_state == S_CTL_IDLE) begin
             send_en <= 1'b1;
             ctl_com_data <= 8'b11111101;
@@ -103,7 +115,7 @@ module segm7_main #
     reg [2:0] cs_cnt;
     reg [7:0] com_data, seg_data;
 
-    always @ (posedge S_AXI_ACLK) begin
+    always @ (posedge clk) begin
         if (!S_AXI_ARSTN)
             cs_state <= S_CS_IDLE;
         else
@@ -135,7 +147,7 @@ module segm7_main #
         endcase
     end
 
-    always @ (posedge S_AXI_ACLK) begin
+    always @ (posedge clk) begin
         if (cs_state == S_CS_IDLE) begin
             cs_cnt <= 3'b0;
 
