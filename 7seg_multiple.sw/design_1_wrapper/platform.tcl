@@ -46,3 +46,6 @@ platform generate -domains
 platform active {design_1_wrapper}
 platform config -updatehw {C:/Users/YNakagami/Develop/tmp/Xilinx/7seg_multiple/design_1_wrapper.xsa}
 platform generate -domains 
+platform active {design_1_wrapper}
+platform config -updatehw {C:/Users/YNakagami/Develop/tmp/Xilinx/7seg_multiple/design_1_wrapper.xsa}
+platform generate

@@ -23,7 +23,7 @@ module segm7_main #
         output wire [C_S_AXI_DATA_WIDTH-1:0]    reg_data_out
     );
 
-    assign reg_data_out = 0;
+    assign reg_data_out = slv_reg1;
 
     /* ----- AXIバス ==> 接続回路 ----- */
     // 書き込みチェック信号
